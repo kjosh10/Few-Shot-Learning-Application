@@ -1,6 +1,7 @@
 
-
-    ############################################     Necessary Imports     ############################################
+"""
+Importing necessary dependencies
+"""
 
 import tkinter as tk
 from tkinter import *
@@ -26,11 +27,16 @@ from PIL import ImageTk, Image
 import tensorflow as tf
 from tensorflow.keras import datasets, layers, models, losses, Model
 
-    
+   
     ###############################     Methods to Download Images from Google       ###############################
     
 def images_downloader_from_google(classes, images_per_class):
-    
+    """
+    method to download images from Google 
+
+    :param classes: list, a list of all the classes to be trained on
+    :param images_per_class: int, number of images to download per class
+    """
     google_image = "https://www.google.com/search?site=&tbm=isch&source=hp&biw=1873&bih=990&"
 
     user_agent = {
@@ -38,6 +44,12 @@ def images_downloader_from_google(classes, images_per_class):
     }
 
     def download_from_url(link, key):
+        """
+        method to download image from the url
+
+        :param link: str, url from where image is to be downloaded
+        :param key: str, class name whose image is to be downloaded
+        """
         response = requests.get(link)
         image_name = key + '-' + str(random.randint(1, 1e11)) + ".jpg"
 #         image_name = key + '-' + link.split(':')[2].split('-')[0].split('=')[0] + '.jpg'
@@ -114,7 +126,13 @@ def images_downloader_from_google(classes, images_per_class):
     ###############################     Methods to Download Images from Unsplash       ###############################
 
 def images_downloader_from_unsplash(classes, images_per_class, token_num):
+    """
+    method to download images from Unsplash server 
 
+    :param classes: list, a list of all the classes to be trained on
+    :param images_per_class: int, number of images to download per class
+    :param token_num: int, token number for using the access token
+    """
     access_token = {0:'RyH2ALP-5KeNjh5y7WKakVe2rvLJqCu9DTPfnTixRWc', 1: 'aJccbYqOTjjP1EXKqf0nlCs9HTTVrdBLyOsmchu7BYw', 2:'THeZYVZEtbMp6LrfVVe4bJmaV2dH5PTwym7oqW22ngo', 3:'VMxWawzk5bBIUMS1NnlPa_XgOwmWfFZ9ekat3Ato88I'}
 
     ### To save Images in a different Folder ###
@@ -135,7 +153,12 @@ def images_downloader_from_unsplash(classes, images_per_class, token_num):
     multiplier = 0
 
     def download_from_url(img_url, key):
+        """
+        method to download image from the url
 
+        :param img_url: str, url from where image is to be downloaded
+        :param key: str, class name whose image is to be downloaded
+        """
         file_name = key + '-' + str(random.randint(1, 1e11)) + ".jpg"
 #         file_name = key + '-' + img_url.split('-')[1] + ".jpg"
 #         print(file_name, key)
@@ -224,6 +247,16 @@ def images_downloader_from_unsplash(classes, images_per_class, token_num):
     ###############################     Resize Images and save them into Numpy arrays and label them       ###############################
 
 def image_resizer(classes, total_images, images_per_class, resize_shape):
+    """
+    method to resize images
+
+    :param classes: list, a list of all the classes to be trained on
+    :param total_images: int, total number of images to be downloaded
+    :param images_per_class: int, number of images to download per class
+    :param resize_shape: int, shape to resize all the images into size (resize_shape, resize_shape, 3)
+    :return images: numpy.ndarray, a numpy array of all the images
+    :return labels: list, a list of all the labels of the images
+    """
     from PIL import Image
     resize_shape = int(resize_shape)
     ### To save Images in a different Folder ###
@@ -286,7 +319,19 @@ def image_resizer(classes, total_images, images_per_class, resize_shape):
     ###############################     Method to Train the model              ###############################
 
 def train_modelVGG16(classes, X_train, X_test, y_train, y_test, epochs, resize_shape, verbose=0):
-    
+    """
+    method to train the VGG16 model
+
+    :param classes: list, a list of all the classes to be trained on
+    :param X_train: numpy.ndarray, numpy array of all the training images
+    :param X_test: numpy.ndarray, numpy array of all the testing images
+    :param y_train: list, a list of all labels of the training images
+    :param y_test: list, a list of all labels of all the testing images
+    :param epochs: int, number of epochs on which model is to be trained on
+    :param resize_shape: int, shape to resize all the images into size (resize_shape, resize_shape, 3)
+    :param verbose: int, an integer whether to show the model summary during the training
+    :return model_VGG16: Sequential, a sequential model
+    """
     model_VGG16 = models.Sequential()
 
     ## VGG16
@@ -315,9 +360,17 @@ def train_modelVGG16(classes, X_train, X_test, y_train, y_test, epochs, resize_s
     
     
 def image_snapper_video(resize_shape, model, classes):
+    """
+    method to create an openCV real time prediction window
 
+    :param resize_shape: int, shape to resize all the images into size (resize_shape, resize_shape, 3)
+    :param model_VGG16: Sequential, a sequential model
+    :param classes: list, a list of all the classes to be trained on
+    """
     def returnCameraIndexes():
-        # checks the first 10 indexes.
+        """
+        method to check all the active camera indices
+        """
         index = 0
         arr = []
         i = 10
@@ -424,7 +477,17 @@ def image_snapper_video(resize_shape, model, classes):
     ###############################     Create a Database                ###############################
     
 def database_manager(classes, images_per_class, epochs, model, feedback, X_test, y_test):
-    
+    """
+    method to link the project to the database
+
+    :param classes: list, a list of all the classes to be trained on
+    :param images_per_class: int, number of images to download per class
+    :param epochs: int, number of epochs on which model is to be trained on
+    :param model: Sequential, a sequential model
+    :param feedback: str, a feedback given by the user
+    :param X_test: numpy.ndarray, numpy array of all the testing images
+    :param y_test: list, a list of all labels of all the testing images
+    """
     import sqlite3
     
     classes_string = ""
