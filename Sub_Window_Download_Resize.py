@@ -5,8 +5,18 @@ from Sub_Window_Ml_Model import *
 ###############################     Creating Class to always create new Window   ###############################
 
 class Download_Resize_Window(Main_Home_Window):
-    
-    
+    """
+    This script creates the download and resize tkinter window
+
+    Attributes:
+    Main_Home_Window: tkinter window, main root tkinter window
+    website_name: str, a string of the website name
+    window: tkinter window, current tkinter window
+    height: int, height of the window
+    width: int, width of the window
+    no_classes: int, total number of classes for the model
+    images_per_class: int, images to be downloaded per class
+    """
     def __init__(self, website_name, window, height, width, no_classes, images_per_class):
         self.window = window
         self.HEIGHT = height
@@ -19,7 +29,9 @@ class Download_Resize_Window(Main_Home_Window):
     ###############################     Creating Canvas, Frames, Labels, Entries and Buttons   ###############################
     
     def ask_question_for_classes(self):    
-        
+        """
+        method to create a tkinter window
+        """
         canvas = tk.Canvas(self.window, height=self.HEIGHT, width=self.WIDTH)
         canvas.pack()
 #         global classes, entries, entries_is_downloaded
@@ -35,6 +47,12 @@ class Download_Resize_Window(Main_Home_Window):
             self.entries.append(entry)
 
         def save_data(entries, entries_is_downloaded):
+            """
+            method to store all the entries
+
+            :param entries: list, a list of all the tkinter entries
+            :param entries_is_downloaded: list, a list of all the tkinter entries for downloading
+            """
             for entry, entry_is_saved in zip(entries, entries_is_downloaded):
                 self.classes.append(entry.get())
                 entry_is_saved.delete(0, END)
@@ -45,6 +63,15 @@ class Download_Resize_Window(Main_Home_Window):
         button_1.place(relx=0.01, rely=0.5, relwidth=0.98, relheight=0.2)
 
         def download_images(entries_is_downloaded, website_name, classes, images_per_class, token_num):
+            """
+            method to download images
+
+            :param entries_is_downloaded: list, a list of all the tkinter entries for downloading
+            :param website_name: str, a string of the website name
+            :param classes: list, a list of all the classes to be trained on
+            :param images_per_class: int, images to be downloaded per class
+            :param token_num: int, token number for using the access token
+            """
             if self.website_name == 'Google':
                 self.images_downloader_from_google(self.entries_is_downloaded, self.classes, self.images_per_class)
             else:
@@ -66,6 +93,14 @@ class Download_Resize_Window(Main_Home_Window):
         entry_resize_shape.place(relx=0.52, rely=0.08, relwidth=0.47, relheight=0.36)
 
         def resize_images(classes, total_images, images_per_class, shape):
+            """
+            method to resize images
+
+            :param classes: list, a list of all the classes to be trained on
+            :param total_images: int, total number of images
+            :param images_per_class: int, images to be downloaded per class
+            :param shape: int, shape to resize all the images into size (shape, shape, 3)
+            """
 #             global images, labels, resize_shape
             self.resize_shape = int(shape)
             self.images, self.labels = self.image_resizer(classes, total_images, images_per_class, self.resize_shape)
@@ -110,6 +145,14 @@ class Download_Resize_Window(Main_Home_Window):
     ###############################     Methods to Download Images from Google       ###############################
     
     def images_downloader_from_google(self, entries_is_downloaded, classes, images_per_class, token_num=1):
+        """
+        method to download images from Google
+
+        :param entries_is_downloaded: list, a list of all the tkinter entries for downloading
+        :param classes: list, a list of all the classes to be trained on
+        :param images_per_class: int, images to be downloaded per class
+        :param token_num: int, token number for using the access token
+        """
         # Second Section: Declare important variables
         google_image = "https://www.google.com/search?site=&tbm=isch&source=hp&biw=1873&bih=990&"
 
@@ -118,6 +161,12 @@ class Download_Resize_Window(Main_Home_Window):
         }
 
         def download_from_url(link, key):
+            """
+            method to download image from the url
+
+            :param img_url: str, url from where image is to be downloaded
+            :param key: str, class name whose image is to be downloaded
+            """
             response = requests.get(link)
             image_name = key + '-' + str(random.randint(1, 1e11)) + ".jpg"
     #         image_name = key + '-' + link.split(':')[2].split('-')[0].split('=')[0] + '.jpg'
@@ -204,7 +253,14 @@ class Download_Resize_Window(Main_Home_Window):
     ###############################     Methods to Download Images from Unsplash       ###############################
     
     def images_downloader_from_unsplash(self, entries_is_downloaded, classes, images_per_class, token_num):
+        """
+        method to download images from Unsplash
 
+        :param entries_is_downloaded: list, a list of all the tkinter entries for downloading
+        :param classes: list, a list of all the classes to be trained on
+        :param images_per_class: int, images to be downloaded per class
+        :param token_num: int, token number for using the access token
+        """
         access_token = {0:'RyH2ALP-5KeNjh5y7WKakVe2rvLJqCu9DTPfnTixRWc', 1: 'aJccbYqOTjjP1EXKqf0nlCs9HTTVrdBLyOsmchu7BYw', 2:'THeZYVZEtbMp6LrfVVe4bJmaV2dH5PTwym7oqW22ngo', 3:'VMxWawzk5bBIUMS1NnlPa_XgOwmWfFZ9ekat3Ato88I'}
 
         ### To save Images in a different Folder ###
@@ -225,7 +281,12 @@ class Download_Resize_Window(Main_Home_Window):
         multiplier = 0
 
         def download_from_url(img_url, key):
+            """
+            method to download image from the url
 
+            :param img_url: str, url from where image is to be downloaded
+            :param key: str, class name whose image is to be downloaded
+            """
             file_name = key + '-' + str(random.randint(1, 1e11)) + ".jpg"
     #         file_name = key + '-' + img_url.split('-')[1] + ".jpg"
     #         print(file_name, key)
@@ -317,6 +378,16 @@ class Download_Resize_Window(Main_Home_Window):
     ###############################     Resize Images and save them into Numpy arrays and label them       ###############################
     
     def image_resizer(self, classes, total_images, images_per_class, resize_shape):
+        """
+        method to resize images
+
+        :param classes: list, a list of all the classes to be trained on
+        :param total_images: int, total number of images to be downloaded
+        :param images_per_class: int, number of images to download per class
+        :param resize_shape: int, shape to resize all the images into size (resize_shape, resize_shape, 3)
+        :return images: numpy.ndarray, a numpy array of all the images
+        :return labels: list, a list of all the labels of the images
+        """
         from PIL import Image
         resize_shape = int(resize_shape)
         ### To save Images in a different Folder ###
