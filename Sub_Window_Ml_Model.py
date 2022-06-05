@@ -4,11 +4,14 @@ from Sub_Window_Prediction_WebCam import *
 ###############################     Creating Class to always create new Window   ###############################
 
 class ML_Model_Window(Main_Home_Window):
-    
-    
-    
-    def __init__(self, parameters):# website_name, window, height, width, no_classes, images_per_class, classes, labels, resize_shape):
-        
+    """
+    This script creates the download and resize tkinter window
+
+    Attributes:
+    Main_Home_Window: tkinter window, main root tkinter window
+    parameters: list, a list of all the parameters
+    """
+    def __init__(self, parameters):
         from PIL import ImageTk, Image
         
         self.website_name = parameters[0]
@@ -30,17 +33,21 @@ class ML_Model_Window(Main_Home_Window):
     ###############################     Making the Window Layout                 ###############################
     
     def image_viewer_and_ML_model_trainer(self, window_ML_Model, HEIGHT, WIDTH, no_classes):
+        """
+        method to create a tkinter window
+
+        :param window_ML_Model: tkinter window, current tkinter window
+        :param HEIGHT: int, height of the window
+        :param WIDTH: int, width of the window
+        :param no_classes: int, total number of classes for the model
+        """
         from PIL import ImageTk, Image
         canvas = tk.Canvas(window_ML_Model, height=HEIGHT, width=WIDTH)
         canvas.pack()
 
         frame_1 = tk.Frame(window_ML_Model, bg='#80c1ff', bd=5)
         frame_1.place(relx=0.01, rely=0.01, relwidth=0.98, relheight=0.98)
-        
-        
-
-
-
+    
         button_1 = Button(frame_1, text="View Images with their labels", font=40, command=
                           lambda: Main_Home_Window.view_images_and_labels(self, self.window, self.X_train, 
                                                                           self.flag_top_level, self.classes, self.y_train, 
@@ -50,6 +57,12 @@ class ML_Model_Window(Main_Home_Window):
         ###############################     Method to Train the model              ###############################
         
         def train_model(no_epochs, entry_epoch):
+            """
+            method to train the model
+
+            :param no_epochs: int, number of epochs for which model is trained on
+            :param entry_epoch: Entry, tkinter entry
+            """
 #             global model_VGG16
             self.model_VGG16 = models.Sequential()
             self.epochs = no_epochs
@@ -89,6 +102,11 @@ class ML_Model_Window(Main_Home_Window):
         ###############################     Method to plot accuracy plot                ###############################
         
         def plot_accuracy(history):
+            """
+            method to plot the accuracy
+
+            :param history: model, a history of the trained model
+            """
             window_plot_accuracy = Tk()
             # setting the title 
             window_plot_accuracy.title('Plotting in Tkinter')
@@ -132,6 +150,11 @@ class ML_Model_Window(Main_Home_Window):
         ###############################     Method to plot losses                 ###############################
         
         def plot_loss(history):
+            """
+            method to plot the losses
+
+            :param history: model, a history of the trained model
+            """
             window_plot_loss = Tk()
             # setting the title 
             window_plot_loss.title('Plotting in Tkinter')
@@ -181,6 +204,9 @@ class ML_Model_Window(Main_Home_Window):
         ###############################     Command method to go to the next Window                 ###############################
         
         def go_next():
+            """
+            method to go to the next window
+            """
             window_prediction_camera = Tk()
             window_prediction_camera.attributes('-fullscreen', True)
             window_prediction_camera.title('WebCam Prediction')
