@@ -5,7 +5,7 @@ from Sub_Window_Prediction_WebCam import *
 
 class ML_Model_Window(Main_Home_Window):
     """
-    This script creates the download and resize tkinter window
+    This script creates the new tkinter window
 
     Attributes:
     Main_Home_Window: tkinter window, main root tkinter window
