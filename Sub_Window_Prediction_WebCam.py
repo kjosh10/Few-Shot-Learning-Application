@@ -1,7 +1,13 @@
 
 
 class Prediction_With_WebCam(Main_Home_Window):
-    
+    """
+    This script creates the new tkinter window
+
+    Attributes:
+    Main_Home_Window: tkinter window, main root tkinter window
+    parameters: list, a list of all the parameters
+    """
     def __init__(self, parameters):# website_name, window, height, width, no_classes, images_per_class, classes, labels, resize_shape):
         
         from PIL import ImageTk, Image
@@ -26,7 +32,9 @@ class Prediction_With_WebCam(Main_Home_Window):
     ###############################     Method to setup the Window Layout                 ###############################
     
     def predictor_camera(self):
-        
+        """
+        method to create and setup the tkinter window
+        """
         canvas = tk.Canvas(self.window, height=self.HEIGHT, width=self.WIDTH)
         canvas.pack()
         from PIL import ImageTk, Image
@@ -44,6 +52,9 @@ class Prediction_With_WebCam(Main_Home_Window):
         button_view_predictions.place(relx=0.01, rely=0.2, relwidth=0.28, relheight=0.6)
 
         def open_camera_predictor():
+            """
+            method to open openCV predictor real time window
+            """
             self.image_snapper_video()
 
 
@@ -63,9 +74,13 @@ class Prediction_With_WebCam(Main_Home_Window):
     
     
     def image_snapper_video(self):
-
+        """
+        method to create an openCV real time prediction window
+        """
         def returnCameraIndexes():
-            # checks the first 10 indexes.
+            """
+            method to check all the active camera indices
+            """ 
             index = 0
             arr = []
             i = 10
@@ -170,6 +185,11 @@ class Prediction_With_WebCam(Main_Home_Window):
     ###############################     Create a Database                ###############################
     
     def database_manager(self, frame):
+        """
+        method to link the project to the database
+
+        :param frame: frame, a tkinter frame of the current window
+        """
         import sqlite3
         
         self.classes_string = ""
@@ -223,7 +243,9 @@ class Prediction_With_WebCam(Main_Home_Window):
         #    Command to add the details to the data base
         
         def submit(entry):
-            
+            """
+            a method to submit the entries to the database
+            """
             #   Create a Database or connect to one   
             conn = sqlite3.connect('Model_history.db')
 
